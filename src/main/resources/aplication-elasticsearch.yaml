@@ -1,6 +1,9 @@
 spring.jpa:
   properties:
     hibernate.search:
+      automatic-indexing:
+          synchronization:
+            strategy: sync
       backend:
         hosts: http://localhost:9200
         protocol: http

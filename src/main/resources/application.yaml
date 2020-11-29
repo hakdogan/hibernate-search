@@ -11,6 +11,3 @@ spring:
         url: jdbc:postgresql://localhost:5432/jugistanbul
         username: postgres
         password: postgres
-    logging:
-        level:
-            org.springframework.core.env: DEBUG

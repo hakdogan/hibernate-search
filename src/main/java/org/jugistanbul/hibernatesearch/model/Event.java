@@ -1,10 +1,11 @@
 package org.jugistanbul.hibernatesearch.model;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,30 +17,22 @@ import java.util.Objects;
 public class Event
 {
     @Id
-    private String id;
+    @GeneratedValue
+    @GenericField
+    private int id;
 
     @FullTextField
     private String name;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id.equals(event.id) &&
-                name.equals(event.name);
-    }
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @IndexedEmbedded
+    private List<Host> hosts;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,5 +42,27 @@ public class Event
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Host> getHosts() {
+        return hosts;
+    }
+
+    public void setHosts(List<Host> hosts) {
+        this.hosts = hosts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return id == event.id &&
+                name.equals(event.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
