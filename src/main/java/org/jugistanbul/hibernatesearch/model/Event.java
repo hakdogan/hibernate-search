@@ -22,9 +22,6 @@ public class Event
     @FullTextField
     private String name;
 
-    @KeywordField
-    private int duration;
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @IndexedEmbedded
     private List<Host> hosts;

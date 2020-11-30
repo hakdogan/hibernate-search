@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -20,8 +22,11 @@ public class Host
     @GenericField
     private int id;
 
-    @FullTextField
-    private String name;
+    @KeywordField
+    private String firstname;
+
+    @KeywordField
+    private String lastname;
 
     @FullTextField
     private String title;
@@ -38,12 +43,20 @@ public class Host
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getTitle() {
@@ -68,12 +81,14 @@ public class Host
         if (o == null || getClass() != o.getClass()) return false;
         Host host = (Host) o;
         return id == host.id &&
-                name.equals(host.name) &&
-                title.equals(host.title);
+                firstname.equals(host.firstname) &&
+                lastname.equals(host.lastname) &&
+                title.equals(host.title) &&
+                Objects.equals(event, host.event);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, title);
+        return Objects.hash(id, firstname, lastname, title, event);
     }
 }
