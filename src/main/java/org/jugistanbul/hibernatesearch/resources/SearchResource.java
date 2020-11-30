@@ -7,11 +7,13 @@ import org.jugistanbul.hibernatesearch.model.Event;
 import org.jugistanbul.hibernatesearch.model.Host;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -72,5 +74,13 @@ public class SearchResource
 
         logger.info("Hit count is {}", result.total().hitCount());
         return result.hits();
+    }
+
+    @Transactional
+    @DeleteMapping(path = "/search/event/delete/{id}", produces = "text/plain")
+    public String deleteEventById(@PathVariable("id") int id){
+        Event event = entityManager.find(Event.class, id);
+        entityManager.remove(event);
+        return String.join(" : ", "Removed", event.toString());
     }
 }
