@@ -10,13 +10,15 @@ Hibernate Search is a library that allows keeping your local `Apache Lucene` ind
 
 ## Preparing the infrastructure
 
+The entities of the application are stored in `PostgreSQL` and indexed in `ElasticSearch` so we need instances of them.
+
 ```shell script
 docker run --rm --name postgresql \
   -e POSTGRES_USER=postgres \ 
   -e POSTGRES_PASSWORD=postgres \ 
   -e POSTGRES_DB=jugistanbul \ 
   -p 5432:5432 \ 
-  postgres:${POSTGRES_VERSION}
+  postgres:${POSTGRESQL_VERSION}
 ```
 ```shell script
 docker run --rm --name elasticsearch  \
