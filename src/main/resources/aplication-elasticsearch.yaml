@@ -11,4 +11,4 @@ spring.jpa:
         hosts: http://localhost:9200
         protocol: http
         discovery.enabled: true
-        #analysis.configurer: elasticsearchAnalysisConfigurer
+        analysis.configurer: englishAnalysisConfigurer
