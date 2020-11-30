@@ -44,7 +44,7 @@ public class SearchResource
         SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
-                        .field("name")
+                        .fields("firstname", "lastname")
                         .matching(name))
                 .fetch(20);
 
