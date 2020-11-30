@@ -19,7 +19,7 @@ public class Event
     @GenericField
     private int id;
 
-    @FullTextField
+    @FullTextField(analyzer = "english")
     private String name;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

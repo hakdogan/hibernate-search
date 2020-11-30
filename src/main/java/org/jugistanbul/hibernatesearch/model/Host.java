@@ -28,7 +28,7 @@ public class Host
     @KeywordField
     private String lastname;
 
-    @FullTextField
+    @FullTextField(analyzer = "english")
     private String title;
 
     @ManyToOne
