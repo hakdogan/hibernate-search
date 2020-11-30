@@ -63,4 +63,13 @@ public class Event
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hosts=" + hosts +
+                '}';
+    }
 }
