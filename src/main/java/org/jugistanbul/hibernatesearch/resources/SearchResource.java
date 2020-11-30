@@ -46,7 +46,7 @@ public class SearchResource
         return result.hits();
     }
 
-    @GetMapping(path = "/search/host/{name}", produces = "application/json")
+    @GetMapping(path = "/search/host/name/{name}", produces = "application/json")
     public List<Host> searchHostsByName(@PathVariable("name") String name){
         SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
@@ -59,9 +59,22 @@ public class SearchResource
         return result.hits();
     }
 
+    @GetMapping(path = "/search/host/title/{title}", produces = "application/json")
+    public List<Host> searchHostsByTitle(@PathVariable("title") String title){
+        SearchSession searchSession = Search.session(entityManager);
+        SearchResult<Host> result = searchSession.search(Host.class)
+                .where( f -> f.simpleQueryString()
+                        .fields("title")
+                        .matching(title))
+                .fetch(20);
+
+        logger.info("Hit count is {}", result.total().hitCount());
+        return result.hits();
+    }
+
     @GetMapping(path = "/search/events", produces = "application/json")
     public List<Event> allEvents(){
-        SearchSession searchSession = Search.session( entityManager );
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
@@ -72,7 +85,7 @@ public class SearchResource
 
     @GetMapping(path = "/search/hosts", produces = "application/json")
     public List<Host> allHosts(){
-        SearchSession searchSession = Search.session( entityManager );
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
