@@ -7,10 +7,8 @@ import org.jugistanbul.hibernatesearch.model.Event;
 import org.jugistanbul.hibernatesearch.model.Host;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -27,6 +25,13 @@ public class SearchResource
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Transactional
+    @PostMapping(path = "/event/add", consumes = "application/json", produces = "application/json")
+    public Event addEvent(@RequestBody Event event){
+        entityManager.persist(event);
+        return event;
+    }
 
     @GetMapping(path = "/search/event/{name}", produces = "application/json")
     public List<Event> searchEventsByName(@PathVariable("name") String name){
@@ -77,7 +82,7 @@ public class SearchResource
     }
 
     @Transactional
-    @DeleteMapping(path = "/search/event/delete/{id}", produces = "text/plain")
+    @DeleteMapping(path = "/event/delete/{id}", produces = "text/plain")
     public String deleteEventById(@PathVariable("id") int id){
         Event event = entityManager.find(Event.class, id);
         entityManager.remove(event);
