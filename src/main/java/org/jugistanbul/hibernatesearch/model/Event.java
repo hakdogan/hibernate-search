@@ -1,9 +1,7 @@
 package org.jugistanbul.hibernatesearch.model;
 
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +21,9 @@ public class Event
 
     @FullTextField
     private String name;
+
+    @KeywordField
+    private int duration;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @IndexedEmbedded
