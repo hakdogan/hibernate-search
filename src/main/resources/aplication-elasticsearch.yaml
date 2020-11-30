@@ -1,7 +1,10 @@
 spring.jpa:
   properties:
     hibernate.search:
-      automatic-indexing:
+      orm:
+        schema_management:
+          strategy: drop_and_create
+      automatic_indexing:
           synchronization:
             strategy: sync
       backend:
