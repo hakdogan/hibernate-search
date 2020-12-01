@@ -12,7 +12,28 @@
 	<artifactId>hibernate-search</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hibernate-search</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Demo project for how to use Hibernate Search with Spring Boot</description>
+
+	<developers>
+		<developer>
+			<name>Hüseyin Akdoğan</name>
+			<id>HuseyinAkdogan</id>
+			<email>hakdogan@kodcu.com</email>
+			<url>https://github.com/hakdogan</url>
+			<organization>JUG Istanbul</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+3</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/hakdogan/hibernate-search</url>
+		<connection>https://github.com/hakdogan/hibernate-search.git</connection>
+		<developerConnection>scm:git:https://github.com/hakdogan/hibernate-search.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<properties>
 		<java.version>8</java.version>
