@@ -1,8 +1,6 @@
 package org.jugistanbul.hibernatesearch.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -71,5 +69,33 @@ public class Host
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Host host = (Host) o;
+        return id == host.id &&
+                firstname.equals(host.firstname) &&
+                lastname.equals(host.lastname) &&
+                title.equals(host.title) &&
+                Objects.equals(events, host.events);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstname, lastname, title, events);
+    }
+
+    @Override
+    public String toString() {
+        return "Host{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", title='" + title + '\'' +
+                ", events=" + events +
+                '}';
     }
 }

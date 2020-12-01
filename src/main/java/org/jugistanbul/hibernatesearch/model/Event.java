@@ -1,10 +1,8 @@
 package org.jugistanbul.hibernatesearch.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
-
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,7 +22,7 @@ public class Event
     private String name;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonbTransient
     private Host host;
 
     public int getId() {
@@ -49,5 +47,29 @@ public class Event
 
     public void setHost(Host host) {
         this.host = host;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return id == event.id &&
+                name.equals(event.name) &&
+                Objects.equals(host, event.host);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, host);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", host=" + host +
+                '}';
     }
 }
