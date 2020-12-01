@@ -1,39 +1,55 @@
 package org.jugistanbul.hibernatesearch.resources;
 
+import io.quarkus.runtime.StartupEvent;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
 import org.hibernate.search.mapper.orm.session.SearchSession;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jugistanbul.hibernatesearch.model.Event;
 import org.jugistanbul.hibernatesearch.model.Host;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.ws.rs.*;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
 
 /**
  * @author hakdogan (hakdogan@kodcu.com)
  * Created on 29.11.2020
  **/
-@RestController
+@Path("/search")
 public class SearchResource
 {
-    private SearchSession searchSession;
-    private EntityManager entityManager;
+
     private final Logger logger = LoggerFactory.getLogger(SearchResource.class);
 
-    @Autowired
-    public SearchResource(SearchSession searchSession, EntityManager entityManager) {
-        this.searchSession = searchSession;
-        this.entityManager = entityManager;
+    @Inject
+    EntityManager entityManager;
+
+    SearchSession searchSession;
+
+    @Transactional
+    public void onStartup(@Observes StartupEvent event){
+        SearchSession searchSession = Search.session(entityManager);
+        MassIndexer indexer = searchSession.massIndexer();
+        try {
+            indexer.startAndWait();
+        } catch (InterruptedException e) {
+            logger.error("An InterruptedException was thrown", e);
+        }
     }
 
-    @GetMapping(path = "/search/event/{name}", produces = "application/json")
-    public List<Event> searchEventsByName(@PathVariable("name") String name){
+    @GET
+    @Path("/search/event/{name}")
+    @Produces(APPLICATION_JSON)
+    public List<Event> searchEventsByName(@PathParam String name){
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.simpleQueryString()
                         .field("name")
@@ -44,8 +60,10 @@ public class SearchResource
         return result.hits();
     }
 
-    @GetMapping(path = "/search/host/name/{name}", produces = "application/json")
-    public List<Host> searchHostsByName(@PathVariable("name") String name){
+    @GET
+    @Path("/search/host/name/{name}")
+    @Produces(APPLICATION_JSON)
+    public List<Host> searchHostsByName(@PathParam String name){
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("firstname", "lastname")
@@ -56,8 +74,10 @@ public class SearchResource
         return result.hits();
     }
 
-    @GetMapping(path = "/search/host/title/{title}", produces = "application/json")
-    public List<Host> searchHostsByTitle(@PathVariable("title") String title){
+    @GET
+    @Path("/search/host/title/{title}")
+    @Produces(APPLICATION_JSON)
+    public List<Host> searchHostsByTitle(@PathParam String title){
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("title")
@@ -68,7 +88,9 @@ public class SearchResource
         return result.hits();
     }
 
-    @GetMapping(path = "/search/events", produces = "application/json")
+    @GET
+    @Path("/search/events")
+    @Produces(APPLICATION_JSON)
     public List<Event> allEvents(){
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.matchAll())
@@ -78,7 +100,9 @@ public class SearchResource
         return result.hits();
     }
 
-    @GetMapping(path = "/search/hosts", produces = "application/json")
+    @GET
+    @Path("/search/hosts")
+    @Produces(APPLICATION_JSON)
     public List<Host> allHosts(){
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.matchAll())
@@ -89,36 +113,50 @@ public class SearchResource
     }
 
     @Transactional
-    @PostMapping(path = "/event/add", consumes = "application/json", produces = "application/json")
-    public Event addEvent(@RequestBody Event event){
+    @POST
+    @Path("/event/add")
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    public Event addEvent(Event event){
         entityManager.persist(event);
         return event;
     }
 
     @Transactional
-    @PostMapping(path = "/event/update", consumes = "application/json", produces = "application/json")
-    public Event updateEvent(@RequestBody Event event){
+    @POST
+    @Path("/event/update")
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    public Event updateEvent(Event event){
         entityManager.merge(event);
         return event;
     }
 
     @Transactional
-    @PostMapping(path = "/host/add", consumes = "application/json", produces = "application/json")
-    public Host addHost(@RequestBody Host host){
+    @POST
+    @Path("/host/add")
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    public Host addHost(Host host){
         entityManager.persist(host);
         return host;
     }
 
     @Transactional
-    @PostMapping(path = "/host/update", consumes = "application/json", produces = "application/json")
-    public Host updateHost(@RequestBody Host host){
+    @POST
+    @Path("/host/update")
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    public Host updateHost(Host host){
         entityManager.merge(host);
         return host;
     }
 
     @Transactional
-    @DeleteMapping(path = "/event/delete/{id}", produces = "text/plain")
-    public String deleteEventById(@PathVariable("id") int id){
+    @DELETE
+    @Path("/event/delete/{id}")
+    @Produces(APPLICATION_JSON)
+    public String deleteEventById(@PathParam int id){
         Event event = entityManager.find(Event.class, id);
         entityManager.remove(event);
         return String.join(" : ", "Removed", event.toString());
