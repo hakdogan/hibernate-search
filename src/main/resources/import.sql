@@ -1,9 +1,8 @@
-INSERT INTO event(id, name) VALUES (1, 'Event Storming vs Event Modeling');
-INSERT INTO event(id, name) VALUES (2, 'CI & CD with Azure Devops');
-INSERT INTO event(id, name) VALUES (3, 'Introduction to Quarkus');
-INSERT INTO event(id, name) VALUES (4, 'Change Data Capture with Debezium and Apache Kafka');
+INSERT INTO host(id, firstname, lastname, title) VALUES (1, 'Rafal', 'Maciag', 'CQRS/ES philosophy advocate');
+INSERT INTO host(id, firstname, lastname, title) VALUES (2, 'Huseyin', 'Akdogan', 'Expert Software Consultant');
+INSERT INTO host(id, firstname, lastname, title) VALUES (3, 'Aykut', 'Bulgu', 'System Craftsman');
 
-INSERT INTO host(id, firstname, lastname, title, event_id) VALUES (nextval('hibernate_sequence'), 'Rafal', 'Maciag', 'CQRS/ES philosophy advocate', 1);
-INSERT INTO host(id, firstname, lastname, title, event_id) VALUES (nextval('hibernate_sequence'), 'Huseyin', 'Akdogan', 'Expert Software Consultant', 2);
-INSERT INTO host(id, firstname, lastname, title, event_id) VALUES (nextval('hibernate_sequence'), 'Huseyin', 'Akdogan', 'Expert Software Consultant', 3);
-INSERT INTO host(id, firstname, lastname, title, event_id) VALUES (nextval('hibernate_sequence'), 'Aykut', 'Bulgu', 'System Craftsman', 4);
+INSERT INTO event(id, name, host_id) VALUES (nextval('hibernate_sequence'), 'Event Storming vs Event Modeling', 1);
+INSERT INTO event(id, name, host_id) VALUES (nextval('hibernate_sequence'), 'CI & CD with Azure Devops', 2);
+INSERT INTO event(id, name, host_id) VALUES (nextval('hibernate_sequence'), 'Introduction to Quarkus', 2);
+INSERT INTO event(id, name, host_id) VALUES (nextval('hibernate_sequence'), 'Change Data Capture with Debezium and Apache Kafka', 3);

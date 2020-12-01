@@ -1,12 +1,10 @@
 package org.jugistanbul.hibernatesearch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,9 +29,9 @@ public class Host
     @FullTextField(analyzer = "english")
     private String title;
 
-    @ManyToOne
-    @JsonIgnore
-    private Event event;
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @IndexedEmbedded
+    private List<Event> events;
 
     public int getId() {
         return id;
@@ -67,28 +65,11 @@ public class Host
         this.title = title;
     }
 
-    public Event getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Host host = (Host) o;
-        return id == host.id &&
-                firstname.equals(host.firstname) &&
-                lastname.equals(host.lastname) &&
-                title.equals(host.title) &&
-                Objects.equals(event, host.event);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, lastname, title, event);
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }
