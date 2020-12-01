@@ -22,19 +22,14 @@ import java.util.List;
 @RestController
 public class SearchResource
 {
+    private SearchSession searchSession;
+    private EntityManager entityManager;
     private final Logger logger = LoggerFactory.getLogger(SearchResource.class);
 
     @Autowired
-    private SearchSession searchSession;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Transactional
-    @PostMapping(path = "/event/add", consumes = "application/json", produces = "application/json")
-    public Event addEvent(@RequestBody Event event){
-        entityManager.persist(event);
-        return event;
+    public SearchResource(SearchSession searchSession, EntityManager entityManager) {
+        this.searchSession = searchSession;
+        this.entityManager = entityManager;
     }
 
     @GetMapping(path = "/search/event/{name}", produces = "application/json")
@@ -91,6 +86,13 @@ public class SearchResource
 
         logger.info("Hit count is {}", result.total().hitCount());
         return result.hits();
+    }
+
+    @Transactional
+    @PostMapping(path = "/event/add", consumes = "application/json", produces = "application/json")
+    public Event addEvent(@RequestBody Event event){
+        entityManager.persist(event);
+        return event;
     }
 
     @Transactional
