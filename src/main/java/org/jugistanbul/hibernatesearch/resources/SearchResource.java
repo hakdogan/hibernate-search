@@ -96,6 +96,27 @@ public class SearchResource
     }
 
     @Transactional
+    @PostMapping(path = "/event/update", consumes = "application/json", produces = "application/json")
+    public Event updateEvent(@RequestBody Event event){
+        entityManager.merge(event);
+        return event;
+    }
+
+    @Transactional
+    @PostMapping(path = "/host/add", consumes = "application/json", produces = "application/json")
+    public Host addHost(@RequestBody Host host){
+        entityManager.persist(host);
+        return host;
+    }
+
+    @Transactional
+    @PostMapping(path = "/host/update", consumes = "application/json", produces = "application/json")
+    public Host updateHost(@RequestBody Host host){
+        entityManager.merge(host);
+        return host;
+    }
+
+    @Transactional
     @DeleteMapping(path = "/event/delete/{id}", produces = "text/plain")
     public String deleteEventById(@PathVariable("id") int id){
         Event event = entityManager.find(Event.class, id);
