@@ -2,13 +2,11 @@ package org.jugistanbul.hibernatesearch.config;
 
 import org.hibernate.search.backend.elasticsearch.analysis.ElasticsearchAnalysisConfigurationContext;
 import org.hibernate.search.backend.elasticsearch.analysis.ElasticsearchAnalysisConfigurer;
-import org.springframework.stereotype.Component;
 
 /**
  * @author hakdogan (hakdogan@kodcu.com)
  * Created on 30.11.2020
  **/
-@Component
 public class EnglishAnalysisConfigurer implements ElasticsearchAnalysisConfigurer
 {
     @Override
@@ -20,5 +18,6 @@ public class EnglishAnalysisConfigurer implements ElasticsearchAnalysisConfigure
         context.tokenFilter( "snowball_english" )
                 .type( "snowball" )
                 .param( "language", "English" );
+
     }
 }
