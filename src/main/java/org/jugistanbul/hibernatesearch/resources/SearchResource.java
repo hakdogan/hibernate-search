@@ -24,7 +24,7 @@ import java.util.List;
  * @author hakdogan (hakdogan@kodcu.com)
  * Created on 29.11.2020
  **/
-@Path("/search")
+@Path("/")
 public class SearchResource
 {
 
@@ -45,7 +45,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/event/{name}")
+    @Path("/event/{name}")
     @Produces(APPLICATION_JSON)
     public List<Event> searchEventsByName(@PathParam String name){
         SearchSession searchSession = Search.session(entityManager);
@@ -60,7 +60,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/host/name/{name}")
+    @Path("/host/name/{name}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByName(@PathParam String name){
         SearchSession searchSession = Search.session(entityManager);
@@ -75,14 +75,14 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/host/title/{title}")
+    @Path("/host/title/{title}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByTitle(@PathParam String title){
         SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("title")
-                        .matching(title + "*"))
+                        .matching(title))
                 .fetch(20);
 
         logger.info("Hit count is {}", result.total().hitCount());
