@@ -33,8 +33,6 @@ public class SearchResource
     @Inject
     EntityManager entityManager;
 
-    SearchSession searchSession;
-
     @Transactional
     public void onStartup(@Observes StartupEvent event){
         SearchSession searchSession = Search.session(entityManager);
@@ -50,6 +48,7 @@ public class SearchResource
     @Path("/search/event/{name}")
     @Produces(APPLICATION_JSON)
     public List<Event> searchEventsByName(@PathParam String name){
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.simpleQueryString()
                         .field("name")
@@ -64,6 +63,7 @@ public class SearchResource
     @Path("/search/host/name/{name}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByName(@PathParam String name){
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("firstname", "lastname")
@@ -78,6 +78,7 @@ public class SearchResource
     @Path("/search/host/title/{title}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByTitle(@PathParam String title){
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("title")
@@ -92,6 +93,7 @@ public class SearchResource
     @Path("/search/events")
     @Produces(APPLICATION_JSON)
     public List<Event> allEvents(){
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
@@ -104,6 +106,7 @@ public class SearchResource
     @Path("/search/hosts")
     @Produces(APPLICATION_JSON)
     public List<Host> allHosts(){
+        SearchSession searchSession = Search.session(entityManager);
         SearchResult<Host> result = searchSession.search(Host.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
