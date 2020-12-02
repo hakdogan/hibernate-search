@@ -30,5 +30,5 @@ docker run --rm --name elasticsearch  \
 # To run
 
 ```shell script
-mvn spring-boot:run
+mvn quarkus:dev
 ```
