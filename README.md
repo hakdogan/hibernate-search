@@ -1,4 +1,7 @@
 # Hibernate Search
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.jugistanbul%3Ahibernate-search&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.jugistanbul%3Ahibernate-search)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.jugistanbul%3Ahibernate-search&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.jugistanbul%3Ahibernate-search)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.jugistanbul%3Ahibernate-search&metric=coverage)](https://sonarcloud.io/dashboard?id=org.jugistanbul%3Ahibernate-search)
 
 Hibernate Search is a library that allows keeping your local `Apache Lucene` indexes or `ElasticSearch` cluster in sync with your data that extracts from `Hibernate ORM` based on your domain model. This repository shows you how to use it.
 
