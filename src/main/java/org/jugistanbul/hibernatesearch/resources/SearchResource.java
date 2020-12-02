@@ -52,7 +52,7 @@ public class SearchResource
         SearchResult<Event> result = searchSession.search(Event.class)
                 .where( f -> f.simpleQueryString()
                         .field("name")
-                        .matching(name + "*"))
+                        .matching(name))
                 .fetch(20);
 
         logger.info("Hit count is {}", result.total().hitCount());
