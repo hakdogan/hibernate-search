@@ -20,9 +20,5 @@ public class EnglishAnalysisConfigurer implements ElasticsearchAnalysisConfigure
         context.tokenFilter( "snowball_english" )
                 .type( "snowball" )
                 .param( "language", "English" );
-
-        context.analyzer( "name" ).custom()
-                .tokenizer( "standard" )
-                .tokenFilters( "lowercase", "asciifolding" );
     }
 }
