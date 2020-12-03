@@ -41,6 +41,7 @@ public class SearchResource
             indexer.startAndWait();
         } catch (InterruptedException e) {
             logger.error("An InterruptedException was thrown", e);
+            Thread.currentThread().interrupt();
         }
     }
 
