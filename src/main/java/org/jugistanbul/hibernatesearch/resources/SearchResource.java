@@ -45,7 +45,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/event/{name}")
+    @Path("/search/event/{name}")
     @Produces(APPLICATION_JSON)
     public List<Event> searchEventsByName(@PathParam String name){
         SearchSession searchSession = Search.session(entityManager);
@@ -60,7 +60,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/host/name/{name}")
+    @Path("/search/host/name/{name}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByName(@PathParam String name){
         SearchSession searchSession = Search.session(entityManager);
@@ -75,7 +75,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/host/title/{title}")
+    @Path("/search/host/title/{title}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByTitle(@PathParam String title){
         SearchSession searchSession = Search.session(entityManager);
