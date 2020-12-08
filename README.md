@@ -4,7 +4,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.jugistanbul%3Ahibernate-search&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.jugistanbul%3Ahibernate-search)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.jugistanbul%3Ahibernate-search&metric=coverage)](https://sonarcloud.io/dashboard?id=org.jugistanbul%3Ahibernate-search)
 
-Hibernate Search is a library that allows keeping your local `Apache Lucene` indexes or `ElasticSearch` cluster in sync with your data that extracts from `Hibernate ORM` based on your domain model. This repository shows you how to use it.
+Hibernate Search is a library that allows keeping your local `Apache Lucene` indexes or `ElasticSearch` cluster in sync with your data that extracts from `Hibernate ORM` based on your domain model. This repository was created for an article published in the `Java Advent Calendar` and shows you how to use Hibernate Search in a concrete example.
 
 ## Prerequisites
 
@@ -31,8 +31,12 @@ docker run --rm --name elasticsearch  \
   docker.elastic.co/elasticsearch/elasticsearch-oss:${ELASTICSEARCH_VERSION}
 ```
 
-# To run
+## To run
 
 ```shell script
 mvn quarkus:dev
 ```
+
+##Relecant article
+[How to Keep Elasticsearch in Sync with Relational Databases?
+](https://hakdogan.medium.com/how-to-keep-elasticsearch-in-sync-with-relational-databases-a8c4c2b4c9fe)
