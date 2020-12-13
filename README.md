@@ -31,10 +31,95 @@ docker run --rm --name elasticsearch  \
   docker.elastic.co/elasticsearch/elasticsearch-oss:${ELASTICSEARCH_VERSION}
 ```
 
+## Usage examples
+
+```json
+http -v GET localhost:8080/search/event/quarkus
+GET /search/event/Quarkus HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Host: localhost:8080
+User-Agent: HTTPie/2.3.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 43
+Content-Type: application/json
+
+[
+  {
+    "id": 3,
+    "name": "Introduction to Quarkus"
+  }
+]
+
+http -v GET localhost:8080/search/host/title/consultion
+GET /search/host/title/consultion HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Host: localhost:8080
+User-Agent: HTTPie/2.3.0
+
+
+
+HTTP/1.1 200 OK
+Content-Length: 187
+Content-Type: application/json
+
+[
+  {
+    "events": [
+                {
+                  "id": 2,
+                  "name": "CI & CD with Azure Devops"
+                },
+                {
+                  "id": 3,
+                  "name": "Introduction to Quarkus"
+                }
+              ],
+              "firstname": "Huseyin",
+              "id": 2,
+              "lastname": "Akdogan",
+              "title": "Expert Software Consultant"
+  }
+]
+
+http -v GET localhost:8080/search/event/quar
+GET /search/event/Quar HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Host: localhost:8080
+User-Agent: HTTPie/2.3.0
+
+
+
+HTTP/1.1 404 Not Found
+Content-Length: 91
+Content-Type: application/json
+
+{
+    "code": 404,
+    "error": "No event found",
+    "exceptionType": "javax.ws.rs.WebApplicationException"
+}
+
+```
+
 ## To run
 
 ```shell script
 mvn quarkus:dev
+```
+
+## To tests
+
+```shell script
+mvn verify
 ```
 
 ##Relecant article
