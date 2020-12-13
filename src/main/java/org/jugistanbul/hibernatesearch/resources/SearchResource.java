@@ -35,8 +35,7 @@ public class SearchResource
 
     @Transactional
     public void onStartup(@Observes StartupEvent event){
-        SearchSession searchSession = Search.session(entityManager);
-        MassIndexer indexer = searchSession.massIndexer();
+        MassIndexer indexer = Search.session(entityManager).massIndexer();
         try {
             indexer.startAndWait();
         } catch (InterruptedException e) {
@@ -49,8 +48,8 @@ public class SearchResource
     @Path("/search/event/{name}")
     @Produces(APPLICATION_JSON)
     public List<Event> searchEventsByName(@PathParam String name){
-        SearchSession searchSession = Search.session(entityManager);
-        SearchResult<Event> result = searchSession.search(Event.class)
+        SearchResult<Event> result = Search.session(entityManager)
+                .search(Event.class)
                 .where( f -> f.simpleQueryString()
                         .field("name")
                         .matching(name))
@@ -64,8 +63,8 @@ public class SearchResource
     @Path("/search/host/name/{name}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByName(@PathParam String name){
-        SearchSession searchSession = Search.session(entityManager);
-        SearchResult<Host> result = searchSession.search(Host.class)
+        SearchResult<Host> result = Search.session(entityManager)
+                .search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("firstname", "lastname")
                         .matching(name))
@@ -79,8 +78,8 @@ public class SearchResource
     @Path("/search/host/title/{title}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByTitle(@PathParam String title){
-        SearchSession searchSession = Search.session(entityManager);
-        SearchResult<Host> result = searchSession.search(Host.class)
+        SearchResult<Host> result = Search.session(entityManager)
+                .search(Host.class)
                 .where( f -> f.simpleQueryString()
                         .fields("title")
                         .matching(title))
@@ -94,8 +93,8 @@ public class SearchResource
     @Path("/search/events")
     @Produces(APPLICATION_JSON)
     public List<Event> allEvents(){
-        SearchSession searchSession = Search.session(entityManager);
-        SearchResult<Event> result = searchSession.search(Event.class)
+        SearchResult<Event> result = Search.session(entityManager)
+                .search(Event.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
 
@@ -107,8 +106,8 @@ public class SearchResource
     @Path("/search/hosts")
     @Produces(APPLICATION_JSON)
     public List<Host> allHosts(){
-        SearchSession searchSession = Search.session(entityManager);
-        SearchResult<Host> result = searchSession.search(Host.class)
+        SearchResult<Host> result = Search.session(entityManager)
+                .search(Host.class)
                 .where( f -> f.matchAll())
                 .fetch(20);
 
