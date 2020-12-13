@@ -81,8 +81,8 @@ Content-Type: application/json
                   "name": "Introduction to Quarkus"
                 }
               ],
-              "firstname": "Huseyin",
               "id": 2,
+              "firstname": "Huseyin",
               "lastname": "Akdogan",
               "title": "Expert Software Consultant"
   }
@@ -122,6 +122,6 @@ mvn quarkus:dev
 mvn verify
 ```
 
-##Relecant article
+## Relecant article
 [How to Keep Elasticsearch in Sync with Relational Databases?
 ](https://hakdogan.medium.com/how-to-keep-elasticsearch-in-sync-with-relational-databases-a8c4c2b4c9fe)
