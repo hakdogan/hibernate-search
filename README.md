@@ -122,6 +122,6 @@ mvn quarkus:dev
 mvn verify
 ```
 
-## Relecant article
+## Relevant article
 [How to Keep Elasticsearch in Sync with Relational Databases?
 ](https://hakdogan.medium.com/how-to-keep-elasticsearch-in-sync-with-relational-databases-a8c4c2b4c9fe)
