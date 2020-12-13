@@ -4,7 +4,6 @@ import io.quarkus.runtime.StartupEvent;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
-import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jugistanbul.hibernatesearch.model.Event;
 import org.jugistanbul.hibernatesearch.model.Host;
@@ -13,9 +12,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
@@ -27,7 +31,7 @@ import java.util.List;
 @Path("/")
 public class SearchResource
 {
-
+    private final int NOT_FOUND = 404;
     private final Logger logger = LoggerFactory.getLogger(SearchResource.class);
 
     @Inject
@@ -55,6 +59,7 @@ public class SearchResource
                         .matching(name))
                 .fetch(20);
 
+        throwExceptionIfNotFound(result.total().hitCount(), "event");
         logger.info("Hit count is {}", result.total().hitCount());
         return result.hits();
     }
@@ -70,6 +75,7 @@ public class SearchResource
                         .matching(name))
                 .fetch(20);
 
+        throwExceptionIfNotFound(result.total().hitCount(), "host");
         logger.info("Hit count is {}", result.total().hitCount());
         return result.hits();
     }
@@ -85,6 +91,7 @@ public class SearchResource
                         .matching(title))
                 .fetch(20);
 
+        throwExceptionIfNotFound(result.total().hitCount(), "title");
         logger.info("Hit count is {}", result.total().hitCount());
         return result.hits();
     }
@@ -163,5 +170,35 @@ public class SearchResource
         Event event = entityManager.find(Event.class, id);
         entityManager.remove(event);
         return String.join(" : ", "Removed", event.toString());
+    }
+
+    void throwExceptionIfNotFound(long count, String type){
+        if(count == 0){
+            throw new WebApplicationException(String.format("No %s found", type), NOT_FOUND);
+        }
+    }
+
+    @Provider
+    public static class ErrorMapper implements ExceptionMapper<Exception> {
+
+        @Override
+        public Response toResponse(Exception e) {
+
+            int code = 500;
+            if(e instanceof WebApplicationException){
+                code = ((WebApplicationException) e).getResponse().getStatus();
+            }
+
+            JsonObjectBuilder entityBuilder = Json
+                    .createObjectBuilder()
+                    .add("exceptionType", e.getClass().getName())
+                    .add("code", code);
+
+            if(null != e.getMessage()){
+                entityBuilder.add("error", e.getMessage());
+            }
+
+            return Response.status(code).entity(entityBuilder.build()).build();
+        }
     }
 }
