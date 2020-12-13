@@ -60,7 +60,7 @@ public class SearchResource
                 .fetch(20);
 
         throwExceptionIfNotFound(result.total().hitCount(), "event");
-        logger.info("Hit count is {}", result.total().hitCount());
+        logger.info("Matched event count is {}", result.total().hitCount());
         return result.hits();
     }
 
@@ -76,7 +76,7 @@ public class SearchResource
                 .fetch(20);
 
         throwExceptionIfNotFound(result.total().hitCount(), "host");
-        logger.info("Hit count is {}", result.total().hitCount());
+        logger.info("Matched host count is {}", result.total().hitCount());
         return result.hits();
     }
 
@@ -92,7 +92,7 @@ public class SearchResource
                 .fetch(20);
 
         throwExceptionIfNotFound(result.total().hitCount(), "title");
-        logger.info("Hit count is {}", result.total().hitCount());
+        logger.info("Matched title count is {}", result.total().hitCount());
         return result.hits();
     }
 
@@ -105,7 +105,7 @@ public class SearchResource
                 .where( f -> f.matchAll())
                 .fetch(20);
 
-        logger.info("Hit count is {}", result.total().hitCount());
+        logger.info("Total event count is {}", result.total().hitCount());
         return result.hits();
     }
 
@@ -118,7 +118,7 @@ public class SearchResource
                 .where( f -> f.matchAll())
                 .fetch(20);
 
-        logger.info("Hit count is {}", result.total().hitCount());
+        logger.info("Total host count is {}", result.total().hitCount());
         return result.hits();
     }
 
