@@ -28,7 +28,7 @@ import java.util.List;
  * @author hakdogan (hakdogan@kodcu.com)
  * Created on 29.11.2020
  **/
-@Path("/")
+@Path("/search")
 public class SearchResource
 {
     private final int NOT_FOUND = 404;
@@ -49,7 +49,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/event/{name}")
+    @Path("/event/{name}")
     @Produces(APPLICATION_JSON)
     public List<Event> searchEventsByName(@PathParam String name){
         SearchResult<Event> result = Search.session(entityManager)
@@ -65,7 +65,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/host/name/{name}")
+    @Path("/host/name/{name}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByName(@PathParam String name){
         SearchResult<Host> result = Search.session(entityManager)
@@ -81,7 +81,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/host/title/{title}")
+    @Path("/host/title/{title}")
     @Produces(APPLICATION_JSON)
     public List<Host> searchHostsByTitle(@PathParam String title){
         SearchResult<Host> result = Search.session(entityManager)
@@ -97,7 +97,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/events")
+    @Path("/events")
     @Produces(APPLICATION_JSON)
     public List<Event> allEvents(){
         SearchResult<Event> result = Search.session(entityManager)
@@ -110,7 +110,7 @@ public class SearchResource
     }
 
     @GET
-    @Path("/search/hosts")
+    @Path("/hosts")
     @Produces(APPLICATION_JSON)
     public List<Host> allHosts(){
         SearchResult<Host> result = Search.session(entityManager)
