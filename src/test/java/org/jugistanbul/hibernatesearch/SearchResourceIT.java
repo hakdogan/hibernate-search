@@ -7,6 +7,9 @@ import org.jugistanbul.hibernatesearch.model.Host;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -36,13 +39,13 @@ public class SearchResourceIT
 
     @Test
     public void searchHostsByNameTest(){
-        List<Host> hosts = RestAssured.given().pathParam("name", "huseyin")
+        LinkedHashMap hosts = RestAssured.given().pathParam("name", "huseyin")
                         .when().get("/search/host/name/{name}")
                         .then()
-                        .statusCode(200)
-                .extract().jsonPath().getList(".", Host.class);
+                        .statusCode(404)
+                .extract().jsonPath().getObject(".", LinkedHashMap.class);
 
-        assertTrue(hosts.isEmpty());
+        assertTrue(hosts.get("error").equals("No host found"));
 
         RestAssured.given().pathParam("name", "Huseyin")
                 .when().get("/search/host/name/{name}")
